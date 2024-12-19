@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Customer extends Authenticable
+class Customer extends Authenticable implements JWTSubject
 {
     use HasFactory;
 
@@ -32,6 +33,22 @@ class Customer extends Authenticable
     public function carts() : HasMany
     {
         return $this->hasMany(Cart::class);
+    }
+
+    /**
+     * @return void
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * @return void
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 
 }
