@@ -100,9 +100,9 @@ class CategoryController extends Controller
         }
 
         if($category){
-            return redirect()->route('admin.categories.index')->with(['success' => 'Data Berhasil Disimpan']);
+            return redirect()->route('admin.categories.index')->with(['success' => 'Data Berhasil Diperbarui']);
         }else{
-            return redirect()->route('admin.categories.index')->wit(['error' => 'Data Gagal Disimpan']);
+            return redirect()->route('admin.categories.index')->wit(['error' => 'Data Gagal Diperbarui']);
         }
     }
 

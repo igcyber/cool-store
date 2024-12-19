@@ -40,7 +40,7 @@ class Product extends Model
      */
     public function category() : BelongsTo
     {
-        return $this->belongsTo(Cart::class);
+        return $this->belongsTo(Category::class);
     }
 
     /**
