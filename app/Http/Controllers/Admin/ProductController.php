@@ -17,10 +17,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->when(request()->q, function($products){
+        $products = Product::select('id','image','title','slug','category_id','content','weight','price','discount')->when(request()->q, function($products){
             $products =  $products->where('title', 'like', '%' . request()->q . '%');
         })->paginate(10);
-
         return view('admin.product.index', compact('products'));
     }
 
@@ -29,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::select('id', 'name', 'image', 'slug')->get();
         return view('admin.product.create', compact('categories'));
     }
 

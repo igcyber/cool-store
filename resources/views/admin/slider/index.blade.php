@@ -1,80 +1,99 @@
-@extends('layouts.app', ['title' => 'Halaman Produk'])
+@extends('layouts.app', ['title' => 'Halaman Gambar Slider'])
 
 @section('content')
 <!-- Begin Page Content -->
-<div class="container-fluid mb-5">
+<div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="row">
         <div class="col-md-12">
+
             <div class="card border-0 shadow">
                 <div class="card-header">
-                    <h6 class="m-0 font-weight-bold"><i class="fa fa-shopping-bag"></i> PRODUK</h6>
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-image"></i> UPLOAD SLIDER</h6>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.products.index') }}" method="GET">
+                    <form action="{{ route('admin.sliders.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary btn-sm"
-                                    style="padding-top: 9px; font-size: 0.9rem;"><i class="fa fa-plus-circle"></i> Tambah</a>
-                                </div>
-                                <input type="text" class="form-control" name="q"
-                                    placeholder="Cari berdasarkan nama ">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" style="padding-top: 9px; font-size: 0.9rem;"><i class="fa fa-search"></i> Cari
-                                    </button>
-                                </div>
+                            <label>GAMBAR</label>
+                            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+
+                            @error('image')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
                             </div>
+                            @enderror
+
                         </div>
+
+                        <div class="form-group">
+                            <label>LINK</label>
+                            <input type="text" name="link" value="{{ old('link') }}" placeholder="Masukkan Link"
+                                class="form-control @error('link') is-invalid @enderror">
+
+                            @error('link')
+                            <div class="invalid-feedback" style="display: block">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <button class="btn btn-primary mr-1 btn-submit" type="submit"><i class="fa fa-paper-plane"></i>
+                            SIMPAN</button>
+                        <button class="btn btn-warning btn-reset" type="reset"><i class="fa fa-redo"></i> RESET</button>
+
                     </form>
+                </div>
+
+            </div>
+
+            <div class="card border-0 shadow mt-3 mb-4">
+                <div class="card-header">
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-laptop"></i> SLIDERS</h6>
+                </div>
+
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col" style="text-align: center;width: 6%">NO.</th>
-                                    <th style="width:30%">GAMBAR PRODUK</th>
-                                    <th scope="col">NAMA PRODUK</th>
-                                    <th scope="col">KATEGORI</th>
+                                    <th scope="col">GAMBAR</th>
+                                    <th scope="col">LINK</th>
                                     <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($products as $no => $product)
+                                @forelse ($sliders as $no => $slider)
                                 <tr>
                                     <th scope="row" style="text-align: center">
-                                        {{ ++$no + ($products->currentPage()-1) * $products->perPage() }}</th>
+                                        {{ ++$no + ($sliders->currentPage()-1) * $sliders->perPage() }}</th>
                                     <td class="text-center">
-                                        <img src="{{ $product->image }}"
-                                            style="width:30%">
+                                        <img src="{{ $slider->image }}" class="rounded" style="width:200px">
                                     </td>
-                                    <td>{{ $product->title }}</td>
-                                    <td>{{ $product->category->name }}</td>
+                                    <td>{{ $slider->link }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.products.edit', $product->id) }}"
-                                            class="btn btn-sm btn-primary">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-
                                         <button onClick="Delete(this.id)" class="btn btn-sm btn-danger"
-                                            id="{{ $product->id }}">
+                                            id="{{ $slider->id }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
                                 </tr>
-
                                 @empty
+
                                 <tr>
-                                    <td class="alert alert-danger" colspan="5" align="center">
+                                    <td class="alert alert-danger" colspan="4" align="center">
                                         Data Belum Tersedia!
                                     </td>
                                 </tr>
+
                                 @endforelse
                             </tbody>
                         </table>
                         <div style="text-align: center">
-                            {{$products->links("vendor.pagination.bootstrap-4")}}
+                            {{ $sliders->links("vendor.pagination.bootstrap-4") }}
                         </div>
                     </div>
                 </div>
@@ -105,7 +124,7 @@
 
                 //ajax delete
                 jQuery.ajax({
-                    url: "/admin/products/" + id,
+                    url: "/admin/sliders/" + id,
                     data: {
                         "id": id,
                         "_token": token

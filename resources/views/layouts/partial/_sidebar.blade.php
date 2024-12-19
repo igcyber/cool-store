@@ -42,23 +42,23 @@
     </li>
 
     <div class="sidebar-heading">
-      ORDERS
+      PESANAN
     </div>
 
-    <li class="nav-item {{ Request::is('admin/order*') ? ' active' :  '' }}">
-      <a class="nav-link" href="#">
+    <li class="nav-item {{ Request::is('admin/orders*') ? ' active' :  '' }}">
+      <a class="nav-link" href="{{ route('admin.orders.index') }}">
         <i class="fas fa-shopping-cart"></i>
-        <span>ORDERS</span></a>
+        <span>PESANAN</span></a>
     </li>
 
     <li class="nav-item {{ Request::is('admin/customer*') ? ' active' :  '' }}">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('admin.customer.index') }}">
         <i class="fas fa-users"></i>
         <span>CUSTOMERS</span></a>
     </li>
 
-    <li class="nav-item {{ Request::is('admin/slider*') ? ' active' :  '' }}">
-      <a class="nav-link" href="#">
+    <li class="nav-item {{ Request::is('admin/sliders*') ? ' active' :  '' }}">
+      <a class="nav-link" href="{{ route('admin.sliders.index') }}">
         <i class="fas fa-laptop"></i>
         <span>SLIDERS</span></a>
     </li>
