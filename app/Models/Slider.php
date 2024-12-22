@@ -18,7 +18,7 @@ class Slider extends Model
     protected function image() : Attribute
     {
         return Attribute::make(
-            get : fn($value) => url('/storage/sliders' . $value)
+            get : fn($value) => url('/storage/sliders/' . $value)
         );
     }
 }

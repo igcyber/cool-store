@@ -28,7 +28,7 @@ class SliderController extends Controller
 
         //upload image
         $image = $request->file('image');
-        $image->storeAs('public/sliders', $image->hashName());
+        $image->storeAs('public/sliders/', $image->hashName());
 
         //simpan ke database
         $slider = Slider::create([
@@ -38,9 +38,9 @@ class SliderController extends Controller
 
         if($slider)
         {
-            return redirect()->route('admin.slider.index')->with(['success' => 'Data Berhasil Disimpan']);
+            return redirect()->route('admin.sliders.index')->with(['success' => 'Data Berhasil Disimpan']);
         }else{
-            return redirect()->route('admin.slider.index')->with(['error' => 'Data Gagal Disimpan']);
+            return redirect()->route('admin.sliders.index')->with(['error' => 'Data Gagal Disimpan']);
         }
     }
 
@@ -49,7 +49,7 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-        Storage::disk('local')->delete('public/sliders' . basename($slider->image));
+        Storage::disk('local')->delete('public/sliders/' . basename($slider->image));
         $slider->delete();
 
         if($slider){
