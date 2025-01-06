@@ -1,5 +1,4 @@
-@extends('layouts.app', ['title' => 'Halaman Kategori'])
-
+@extends('layouts.app', ['title' => 'Halaman Sub-Kategori'])
 @section('content')
 <!-- Begin Page Content -->
 <div class="container-fluid mb-5">
@@ -9,15 +8,15 @@
         <div class="col-md-12">
             <div class="card border-0 shadow">
                 <div class="card-header">
-                    <h6 class="m-0 font-weight-bold"><i class="fas fa-tags"></i> KATEGORI</h6>
+                    <h6 class="m-0 font-weight-bold"><i class="fas fa-tags"></i> SUB-KATEGORI</h6>
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.categories.index') }}" method="GET">
+                    <form action="{{ route('admin.sub_categories.index') }}" method="GET">
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary btn-sm"
+                                    <a href="{{ route('admin.sub_categories.create') }}" class="btn btn-primary btn-sm"
                                         style="padding-top: 9px; font-size: 0.9rem;"><i class="fa fa-plus-circle"></i> Tambah</a>
                                 </div>
                                 <input type="text" class="form-control" name="q"
@@ -35,28 +34,31 @@
                                 <tr>
                                     <th scope="col" style="text-align: center;width: 6%">NO.</th>
                                     <th scope="col">GAMBAR</th>
-                                    <th scope="col">NAMA KATEGORI</th>
+                                    <th scope="col">NAMA SUB-KATEGORI</th>
                                     <th scope="col" style="width: 15%;text-align: center">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($categories as $no => $category)
+                                @forelse($subCategories as $no => $sub)
                                 <tr>
                                     <th scope="row" style="text-align: center">
-                                        {{ ++$no + ($categories->currentPage()-1) * $categories->perPage() }}</th>
+                                        {{ ++$no + ($subCategories->currentPage()-1) * $subCategories->perPage() }}
+                                    </th>
                                     <td class="text-center">
-                                        <img src="{{ $category->image }}"
+                                        <img src="{{ $sub->image }}"
                                             style="width:50px">
                                     </td>
-                                    <td>{{ $category->name }}</td>
+                                    <td>
+                                        {{ $sub->name }}
+                                    </td>
                                     <td class="text-center">
-                                        <a href="{{ route('admin.categories.edit', $category->id) }}"
+                                        <a href="{{ route('admin.sub_categories.edit', $sub->id) }}"
                                             class="btn btn-sm btn-primary">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
 
                                         <button onClick="Delete(this.id)" class="btn btn-sm btn-danger"
-                                            id="{{ $category->id }}">
+                                            id="{{ $sub->id }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -71,7 +73,7 @@
                             </tbody>
                         </table>
                         <div style="text-align: center">
-                            {{ $categories->links("vendor.pagination.bootstrap-4") }}
+                            {{ $subCategories->links("vendor.pagination.bootstrap-4") }}
                         </div>
                     </div>
                 </div>
@@ -83,8 +85,7 @@
 <!-- /.container-fluid -->
 
 <script>
-    //ajax delete
-    function Delete(id) {
+    function Delete(id){
         var id = id;
         var token = $("meta[name='csrf-token']").attr("content");
 
@@ -97,11 +98,11 @@
                 'YA'
             ],
             dangerMode: true,
-        }).then(function (isConfirm) {
-            if (isConfirm) {
+        }).then(function (isConfirm){
+            if(isConfirm){
                 //ajax delete
                 jQuery.ajax({
-                    url: "/admin/categories/" + id,
+                    url: "/admin/sub_categories/" + id,
                     data: {
                         "id": id,
                         "_token": token
@@ -135,11 +136,11 @@
                         }
                     }
                 });
-
-            } else {
+            }else{
                 return true;
             }
         })
     }
 </script>
+
 @endsection

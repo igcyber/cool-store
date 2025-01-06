@@ -17,6 +17,7 @@ class Product extends Model
         'title',
         'slug',
         'category_id',
+        'sub_category_id',
         'content',
         'weight',
         'price',
@@ -41,6 +42,14 @@ class Product extends Model
     public function category() : BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function subCategory() : BelongsTo
+    {
+        return $this->belongsTo(SubCategory::class);
     }
 
     /**

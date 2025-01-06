@@ -28,6 +28,10 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('customer.
 Route::get('/category/{slug?}', [CategoryController::class,'show'])->name('customer.category.show');
 Route::get('/categoryHeader', [CategoryController::class, 'categoryHeader'])->name('customer.category.header');
 
+Route::get('/sub_categories', [SubCategoryController::class, 'index'])->name('customer.sub_category.index');
+Route::get('/sub_category/{slug?}', [SubCategoryController::class,'show'])->name('customer.sub_category.show');
+Route::get('/sub_categoryHeader', [SubCategoryController::class, 'subCategoryHeader'])->name('customer.sub_category.header');
+
 Route::get('/products', [ProductController::class, 'index'])->name('customer.product.index');
 Route::get('/product/{slug?}', [ProductController::class, 'show'])->name('customer.product.show');
 

@@ -71,7 +71,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required|unique:categories,name,'.$category->id
+            'name' => 'required|unique:categories,name,'.$category->id,
+            'image' => 'image|mimes:jpeg,jpg,png|max:2000',
         ]);
 
         // cek jika image kosong

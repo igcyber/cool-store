@@ -27,15 +27,16 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item {{ Request::is('admin/categories*') ? ' active' :  '' }} {{ Request::is('admin/product*') ? ' active' :  '' }}">
+    <li class="nav-item {{ Request::is('admin/categories*') ? ' active' :  '' }} {{ Request::is('admin/products*') ? ' active' :  '' }} {{ Request::is('admin/sub_categories*') ? 'active' : '' }}">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fa fa-shopping-bag"></i>
         <span>PRODUK</span>
       </a>
-      <div id="collapseTwo" class="collapse {{ Request::is('admin/categories*') ? ' show' :  '' }} {{ Request::is('admin/products*') ? ' show' :  '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div id="collapseTwo" class="collapse {{ Request::is('admin/categories*') ? ' show' :  '' }} {{ Request::is('admin/products*') ? ' show' :  '' }} {{ Request::is('admin/sub_categories*') ? ' show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">KATEGORI & PRODUK</h6>
           <a class="collapse-item {{ Request::is('admin/categories*') ? ' active' : '' }}" href="{{ route('admin.categories.index') }}">KATEGORI</a>
+          <a class="collapse-item {{ Request::is('admin/sub_categories*') ? 'active' : '' }}" href="{{ route('admin.sub_categories.index') }}">SUB-KATEGORI</a>
           <a class="collapse-item {{ Request::is('admin/products*') ? ' active' : '' }}" href="{{ route('admin.products.index') }}">PRODUK</a>
         </div>
       </div>

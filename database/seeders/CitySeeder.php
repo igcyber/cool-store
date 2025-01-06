@@ -24,11 +24,11 @@ class CitySeeder extends Seeder
         //loop results
         foreach($response['rajaongkir']['results'] as $city){
         //insert ke tabel provinces
-        City::create([
-            'province_id' => $city['province_id'],
-            'city_id' => $city['city_id'],
-            'name' => $city['city_name'] . ' - ' . '(' . $city['type'] . ')',
-        ]);
-    }
+            City::create([
+                'province_id' => $city['province_id'],
+                'city_id' => $city['city_id'],
+                'name' => $city['city_name'] . ' - ' . '(' . $city['type'] . ')',
+            ]);
+        }
     }
 }

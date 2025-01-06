@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class SubCategoryController extends Controller
 {
     /**
      * @return object
      */
     public function index()
     {
-        $categories = Category::with('subcategories')->latest()->get();
+        $subCategories = SubCategory::latest()->get();
         return response()->json([
             'success' => true,
-            'message' => 'Daftar Kategori',
-            'categories' => $categories
+            'message' => 'Daftar Sub-Kategori',
+            'subCategories' => $subCategories
         ]);
     }
 
@@ -29,14 +29,14 @@ class CategoryController extends Controller
      */
     public function show($slug = '')
     {
-        $category = Category::where('slug', $slug)->first();
+        $subCategory = SubCategory::where('slug', $slug)->first();
 
-        if($category)
+        if($subCategory)
         {
             return response()->json([
                 'success' => true,
-                'message' => 'Daftar Produk Berdasarkan Kategori ' . $category->name,
-                'product' => $category->products()->latest()->get()
+                'message' => 'Daftar Produk Berdasarkan Sub-Kategori ' . $subCategory->name,
+                'product' => $subCategory->products()->latest()->get()
             ], 200);
         }else{
             return response()->json([
@@ -46,16 +46,16 @@ class CategoryController extends Controller
         }
     }
 
-    /**
+     /**
      * @return object
      */
-    public function categoryHeader()
+    public function subCategoryHeader()
     {
-        $categories = Category::latest()->take(5)->get();
+        $subCategories = SubCategory::latest()->take(5)->get();
         return response()->json([
             'success' => true,
             'message' => 'Data Kategori Header',
-            'categories' => $categories
+            'subCategories' => $subCategories
         ]);
     }
 }

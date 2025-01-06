@@ -2,30 +2,34 @@
 
 namespace App\Models;
 
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Category extends Model
+class SubCategory extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
-        'name', 'slug', 'image'
+        'name', 'slug', 'image', 'category_id'
     ];
 
-    /**
+
+     /**
      * Accessor image
      * @return Attribute
      */
     protected function image() : Attribute
     {
         return Attribute::make(
-            get: fn($value) => url('/storage/categories/' . $value)
+            get: fn($value) => url('/storage/subcategories/' . $value)
         );
     }
+
 
     /**
      * @return HasMany
@@ -35,8 +39,14 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function subCategories() :HasMany
+
+    /**
+     * @return BelongsTo
+     */
+    public function category() :BelongsTo
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->belongsTo(Category::class);
     }
+
+
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SubCategoryController;
 
 
 Route::get('/', function () {
@@ -22,6 +23,7 @@ Route::prefix('admin')->group(function(){
         Route::get('/profile', ProfileController::class)->name('admin.profile.index');
         Route::resource('/users', UserController::class, ['as' => 'admin'])->except('show');
         Route::resource('/categories', CategoryController::class, ['as' => 'admin'])->except('show');
+        Route::resource('/sub_categories', SubCategoryController::class, ['as' => 'admin'])->except('show');
         Route::resource('/products', ProductController::class, ['as' => 'admin'])->except('show');
         Route::resource('/orders', OrderController::class, ['as' => 'admin'])->only(['index', 'show']);
         Route::resource('/sliders', SliderController::class, ['as' => 'admin'])->only(['index', 'store', 'destroy']);
