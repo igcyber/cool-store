@@ -79,6 +79,17 @@
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
+    <div class="sidebar-heading">
+        PENGATURAN
+    </div>
+
+    <li class="nav-item {{ Request::is('admin/settings*') ? ' active' :  '' }}">
+        <a class="nav-link" href="{{ route('admin.settings.index' ) }}">
+          <i class="fas fa-users"></i>
+          <span>TEXT SLIDER</span>
+        </a>
+    </li>
+
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
       <button class="rounded-circle border-0" id="sidebarToggle"></button>

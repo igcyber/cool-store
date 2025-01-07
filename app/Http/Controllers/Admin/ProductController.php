@@ -28,7 +28,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::select('id', 'name', 'image', 'slug')->get();
+        $categories = Category::with('subCategories:id,name,category_id')->select('id', 'name')->get();
+        // dd($categories);
         return view('admin.product.create', compact('categories'));
     }
 
@@ -49,6 +50,7 @@ class ProductController extends Controller
             'title' => $request->title,
             'slug' => Str::slug($request->title, '-'),
             'category_id' => $request->category_id,
+            'sub_category_id' => $request->sub_category_id,
             'content' => $request->content,
             'weight' => $request->weight,
             'price' => $request->price,
@@ -70,7 +72,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::latest()->get();
+        $categories = Category::with('subCategories:id,name,category_id')->select('id', 'name')->get();
         return view('admin.product.edit', compact('categories', 'product'));
     }
 
@@ -93,6 +95,7 @@ class ProductController extends Controller
                 'title' => $request->title,
                 'slug' => Str::slug($request->title, '-'),
                 'category_id' => $request->category_id,
+                'sub_category_id' => $request->sub_category_id,
                 'content' => $request->content,
                 'weight' => $request->weight,
                 'price' => $request->price,
@@ -114,12 +117,13 @@ class ProductController extends Controller
                 'title' => $request->title,
                 'slug' => Str::slug($request->title, '-'),
                 'category_id' => $request->category_id,
+                'sub_category_id' => $request->sub_category_id,
                 'content' => $request->content,
                 'weight' => $request->weight,
                 'price' => $request->price,
                 'discount' => $request->discount,
                 'keywords' => $request->keywords,
-                'description' => $request->description
+                'description' => $request->description //field content di table
             ]);
         }
 

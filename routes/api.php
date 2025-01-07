@@ -42,3 +42,5 @@ Route::post('/rajaongkir/cek-ongkir', [RajaOngkirController::class, 'cekOngkir']
 Route::post('/notificationHandler', [CheckoutController::class, 'notificationHandler'])->name('notificationHandler');
 
 Route::get('/sliders', SliderController::class)->name('customer.slider.index');
+
+Route::get('/setting', SettingController::class)->name('customer.setting.index');

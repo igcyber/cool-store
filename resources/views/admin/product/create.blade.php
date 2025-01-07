@@ -27,30 +27,14 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label>NAMA PRODUK</label>
-                            <input type="text" name="title" value="{{ old('title') }}" placeholder="Masukkan Nama Produk"
-                                class="form-control @error('title') is-invalid @enderror">
-
-                            @error('title')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>KATEGORI</label>
-                                    <select name="category_id" class="form-control">
-                                        <option value="">-- PILIH KATEGORI --</option>
-                                        @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label>NAMA PRODUK</label>
+                                    <input type="text" name="title" value="{{ old('title') }}" placeholder="Masukkan Nama Produk"
+                                        class="form-control @error('title') is-invalid @enderror">
 
-                                    @error('category_id')
+                                    @error('title')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
                                     </div>
@@ -65,6 +49,40 @@
 
                                     @error('weight')
                                     <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>KATEGORI</label>
+                                    <select name="category_id" id="category_id" class="form-control">
+                                        <option value="">-- PILIH KATEGORI --</option>
+                                        @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('category_id')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="subcategory-option" style="display: none">
+                                <div class="form-group">
+                                    <label>SUB-KATEGORI</label>
+                                    <select name="sub_category_id" id="sub_category_id" class="form-control">
+                                        {{-- <option value="">-- PILIH SUBKATEGORI --</option> --}}
+                                    </select>
+
+                                    @error('sub_category_id')
+                                    <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
                                     </div>
                                     @enderror
@@ -127,6 +145,42 @@
 <!-- /.container-fluid -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.4/tinymce.min.js"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const categories = @json($categories); // data dari controller
+        const categorySelect = document.getElementById('category_id');
+        const subCategoryOption = document.getElementById('subcategory-option');
+        const subCategorySelect = document.getElementById('sub_category_id');
+
+
+        categorySelect.addEventListener('change', function(){
+            const selectedCategoryId = this.value;
+
+            //kosongkan dulu isi subcategory select
+            subCategorySelect.innerHTML = '<option value="">-- PILIH SUBKATEGORI --</option>';
+
+            //cari subcategories berdasarkan category yang dipilih
+            const selectedCategory = categories.find(cat => cat.id == selectedCategoryId)
+
+            // console.log(selectedCategory);
+            if(selectedCategory && selectedCategory.sub_categories.length > 0) {
+                //Tampilkan subcategory dropdown
+                subCategoryOption.style.display = 'block';
+
+                //Tampilkan subcategory data
+                selectedCategory.sub_categories.forEach(subcat => {
+                    const option = document.createElement('option');
+                    option.value = subcat.id;
+                    option.textContent = subcat.name;
+                    subCategorySelect.appendChild(option);
+                });
+            }else{
+                //sembunyikan subcategories select option
+                subCategoryOption.style.display = 'none';
+            }
+        });
+
+    });
+
     var editor_config = {
         selector: "textarea.content",
         plugins: [

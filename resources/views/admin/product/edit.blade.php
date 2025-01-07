@@ -22,35 +22,15 @@
                             <input type="file" name="image" class="form-control">
                         </div>
 
-                        <div class="form-group">
-                            <label>NAMA PRODUK</label>
-                            <input type="text" name="title" value="{{ old('title', $product->title) }}"
-                                placeholder="Masukkan Nama Produk"
-                                class="form-control @error('title') is-invalid @enderror">
-
-                            @error('title')
-                            <div class="invalid-feedback" style="display: block">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>KATEGORI</label>
-                                    <select name="category_id" class="form-control">
-                                        <option value="">-- PILIH KATEGORI --</option>
-                                        @foreach ($categories as $category)
-                                            @if($product->category_id == $category->id)
-                                                <option value="{{ $category->id  }}" selected>{{ $category->name }}</option>
-                                            @else
-                                                <option value="{{ $category->id  }}">{{ $category->name }}</option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                                    <label>NAMA PRODUK</label>
+                                    <input type="text" name="title" value="{{ old('title', $product->title) }}"
+                                        placeholder="Masukkan Nama Produk"
+                                        class="form-control @error('title') is-invalid @enderror">
 
-                                    @error('category_id')
+                                    @error('title')
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $message }}
                                     </div>
@@ -71,6 +51,45 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>KATEGORI</label>
+                                    <select name="category_id" id="category_id_edit" class="form-control">
+                                        <option value="">-- PILIH KATEGORI --</option>
+                                        @foreach ($categories as $category)
+                                            @if($product->category_id == $category->id)
+                                                <option value="{{ $category->id  }}" selected>{{ $category->name }}</option>
+                                            @else
+                                                <option value="{{ $category->id  }}">{{ $category->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+
+                                    @error('category_id')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" id="subcategory-option-edit" style="display: none">
+                                <div class="form-group">
+                                    <label>SUB-KATEGORI</label>
+                                    <select name="sub_category_id" id="sub_category_id_edit" class="form-control">
+                                        {{-- <option value="">-- PILIH SUBKATEGORI --</option> --}}
+                                    </select>
+                                    @error('sub_category_id')
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="form-group">
@@ -132,6 +151,55 @@
 <!-- /.container-fluid -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.4/tinymce.min.js"></script>
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const categories = @json($categories);
+        const categorySelect = document.getElementById('category_id_edit');
+        const subCategoryOption = document.getElementById('subcategory-option-edit');
+        const subCategorySelectEdit = document.getElementById('sub_category_id_edit');
+        const selectedSubCategoryId = {{ $product->sub_category_id ?? 'null' }};
+        // console.log(subCategorySelectEdit);
+
+        // Fungsi untuk mengisi dropdown subkategori
+        function populateSubCategories(categoryId){
+            // Kosongkan dropdown subkategori
+            subCategorySelectEdit.innerHTML = '<option value="">-- PILIH SUBKATEGORI --</option>';
+
+            // Cari subkategori berdasarkan kategori yang dipilih
+            const selectedCategory = categories.find(cat => cat.id == categoryId);
+
+            if(selectedCategory && selectedCategory.sub_categories.length > 0){
+
+                // Tampilkan dropdown subkategori
+                subCategoryOption.style.display = 'block';
+
+                // Tambahkan opsi subkategori
+                selectedCategory.sub_categories.forEach(subcat => {
+                    const option = document.createElement('option');
+                    option.value = subcat.id;
+                    option.textContent = subcat.name;
+
+                    // Pilih Subkategori jika sesuai dengan produk yang sedang diedit
+                    if(subcat.id == selectedSubCategoryId){
+                        option.selected = true;
+                    }
+
+                    subCategorySelectEdit.appendChild(option);
+                });
+            }else{
+                subCategoryOption.style.display = 'none';
+            }
+        }
+
+        // Event listener untuk perubahan kategori
+        categorySelect.addEventListener('change', function (){
+            populateSubCategories(this.value);
+        })
+
+        // Panggil fungsi untuk inisialisasi (kategori produk yang sedang diedit)
+        populateSubCategories(categorySelect.value);
+    });
+
     var editor_config = {
         selector: "textarea.content",
         plugins: [

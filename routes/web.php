@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -27,5 +28,6 @@ Route::prefix('admin')->group(function(){
         Route::resource('/products', ProductController::class, ['as' => 'admin'])->except('show');
         Route::resource('/orders', OrderController::class, ['as' => 'admin'])->only(['index', 'show']);
         Route::resource('/sliders', SliderController::class, ['as' => 'admin'])->only(['index', 'store', 'destroy']);
+        Route::resource('/settings', SettingController::class, ['as' => 'admin'])->only(['index','update']);
     });
 });
